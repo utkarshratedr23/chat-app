@@ -4,15 +4,17 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { BiLogOut } from "react-icons/bi";
+import userConversation from '../Zustans/useConversation';
 const Sidebar = () => {
 const navigate=useNavigate()
-const{authUser}=useAuth();
+const { authUser, setAuthUser } = useAuth();
 const[searchInput,setSearchInput]=useState('')
 const [loading,setLoading]=useState(false);
 const[chatUser,setChatUser]=useState([])
 const[searchUser,setSearchUser]=useState([]);
 const[selectedUserId,setSelectedUserId]=useState(null)
-
+const {message , setMessage, selectedConversation ,  setSelectedConversation} = userConversation();
 useEffect(()=>{
     const chatUserHandler=async()=>{
         setLoading(true);
@@ -35,6 +37,10 @@ useEffect(()=>{
 },[])
 console.log(chatUser);
 
+const handleSearchback = () => {
+  setSearchUser([]);
+  setSearchInput('')
+}
 const handleSearchInput=async(e)=>{
    e.preventDefault()
    setLoading(true);
@@ -59,8 +65,40 @@ const handleSearchInput=async(e)=>{
    }
   }
   const handleUserClick=(user)=>{
-    setSelectedUserId(user._id)
+    
+        setSelectedConversation(user);
+        setSelectedUserId(user._id);
+        
 }
+  const handelLogOut=async()=>{
+    const confirmLogout=window.prompt("type 'UserName' To LOGOUT");
+    if(confirmLogout===authUser.username){
+      setLoading(true)
+      try{
+       const logout=await axios.post('api/auth/logout')
+       const data=logout.data;
+       if(data?.success===false){
+         setLoading(false)
+         console.log(data?.message)
+       }
+       toast.info(data?.message)
+       localStorage.removeItem('chatapp')
+       setAuthUser(null)
+       setLoading(false)
+       navigate('/login')
+      }
+      catch(error){
+       setLoading(false)
+       console.log(error)
+      }
+    }
+   else{
+    toast.info('Logout Cancelled')
+   }
+   
+   
+
+  }
   return (
     <div className='h-full w-auto px-1'>
    <div className='flex justify-between gap-2'>
@@ -80,7 +118,7 @@ const handleSearchInput=async(e)=>{
     <>
     <div className='min-h-[70%] max-h-[80%] m overflow-y-auto scrollbar'>
     <div className='w-auto'>
-    {chatUser.map((user,index)=>(
+    {searchUser.map((user,index)=>(
                 <div key={user._id}>
                     <div
                     onClick={()=>handleUserClick(user)}
@@ -101,6 +139,12 @@ const handleSearchInput=async(e)=>{
             ))}
         </div>
         </div>
+        <div className='mt-auto px-1 py-1 flex'>
+                        <button onClick={()=>handleSearchback()} className='bg-white rounded-full px-2 py-1 self-center'>
+                            <IoArrowBackSharp size={25} />
+                        </button>
+
+                    </div>
     </>
    ):(<>
    <div className='min-h-[70%] max-h-[80%] m overflow-y-auto scrollbar'>
@@ -136,6 +180,12 @@ const handleSearchInput=async(e)=>{
         )}
      </div>
    </div>
+   <div className='mt-auto px-1 py-1 flex'>
+                        <button onClick={()=>handelLogOut()} className=' w-10 cursor-pointer hover:text-white rounded-lg'>
+                            <BiLogOut className='bg-amber-300' size={25} />
+                        </button>
+                        <p className='text-sm text-amber-50 py-1'>Logout</p>
+                    </div>
    </>)}
     </div>
   )
