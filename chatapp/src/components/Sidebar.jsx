@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {FaSearch} from 'react-icons/fa';
 import axios from 'axios'
+import { IoArrowBackSharp } from "react-icons/io5";
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -65,9 +66,8 @@ const handleSearchInput=async(e)=>{
    }
   }
   const handleUserClick=(user)=>{
-    
-        setSelectedConversation(user);
-        setSelectedUserId(user._id);
+      setSelectedConversation(user);
+      setSelectedUserId(user._id);
         
 }
   const handelLogOut=async()=>{
@@ -109,7 +109,7 @@ const handleSearchInput=async(e)=>{
         <FaSearch/>
        </button>
      </form>
-     <img onClick={()=>navigate(`/profile/${authUser?._id}`)} src={authUser?.profilepic}
+     <img onClick={()=>navigate(`/profile/${authUser?._id}`)} src={authUser?.profilepic || '/default-profile.png'}
        className='self-center h-12 w-12 hover:scale-110 cursor-pointer'/>
    </div>
    <div className='divider px-3'>

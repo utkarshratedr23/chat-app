@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
 import Sidebar from '../components/Sidebar';
 import MessageContainer from '../components/MessageContainer';
 
@@ -17,8 +16,8 @@ const Home = () => {
     }
 
   return (
-    <div className='flex justify-between min-w-full md:min-w-[550px] md:max-w-[65%]
-     px-2 h-[95%] md:h-full rounded-xl shadow-lg bg-array-400 bg-clip-padding
+    <div className='flex justify-between min-w-full md:min-w-[550px] md:max-w-[75%]
+     px-2 h-[95%] md:h-full rounded-xl shadow-lg  bg-clip-padding
     backdrop-filter backdrop-blur-lg bg-opacity-0'>
 
         <div className={`w-full py-2 md:flex ${isSidebarVisible? '':'hidden'}`}>
