@@ -5,18 +5,23 @@ import userConversation from "../Zustans/useConversation";
 import axios from "axios";
 import { IoArrowBackSharp, IoSend } from "react-icons/io5";
 
-const MessageContainer = ({ onBackUser, selectedUser }) => {
+const MessageContainer = ({  selectedUser }) => {
   const { authUser } = useAuth();
   const { messages, setSelectedConversation, setMessage, selectedConversation } = userConversation();
   
   const [loading, setLoading] = useState(false);
   const [sendData, setSendData] = useState("");
   const [sending, setSending] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const lastMessageRef = useRef();
 
   // Mobile view detection
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
-
+ 
+  const showSidebar=()=>{
+    setIsSidebarVisible(true)
+    setSelectedConversation(null)
+  }
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768);
@@ -86,7 +91,7 @@ const MessageContainer = ({ onBackUser, selectedUser }) => {
       {/* If no conversation is selected */}
       {!selectedConversation ? (
         <div className="flex items-center justify-center w-full h-full">
-          <div className="px-4 text-center text-2xl text-gray-950 font-semibold flex flex-col items-center gap-2">
+          <div className="px-4 text-center text-2xl text-gray-200 font-semibold flex flex-col items-center gap-2">
             <p className="text-2xl">Welcome, {authUser.username}!</p>
             <p className="text-lg">Select a chat to start messaging</p>
             <TiMessages className="text-6xl text-center" />
@@ -97,7 +102,7 @@ const MessageContainer = ({ onBackUser, selectedUser }) => {
           {/* Chat Header */}
           <div className="flex justify-between items-center bg-sky-600 p-2 rounded-lg h-12">
             {isMobileView && (
-              <button onClick={onBackUser} className="bg-white rounded-full p-1">
+              <button onClick={showSidebar} className="bg-white rounded-full p-1">
                 <IoArrowBackSharp size={25} />
               </button>
             )}

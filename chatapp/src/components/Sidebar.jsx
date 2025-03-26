@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { BiLogOut } from "react-icons/bi";
 import userConversation from '../Zustans/useConversation';
 import MessageContainer from './MessageContainer';
-const Sidebar = () => {
+const Sidebar = ({onSelectUser}) => {
 const navigate=useNavigate()
 const { authUser, setAuthUser } = useAuth();
 const[searchInput,setSearchInput]=useState('')
@@ -131,7 +131,8 @@ const handleSearchInput=async(e)=>{
             </form>
             <img
               onClick={() => navigate(`/profile/${authUser?._id}`)}
-              src={authUser?.profilepic || '/default-profile.png'}
+              src={authUser?.profilepic || "/default-profile.png" }
+              alt='user.img'
               className="self-center h-12 w-12 hover:scale-110 cursor-pointer"
             />
           </div>
@@ -177,7 +178,7 @@ const handleSearchInput=async(e)=>{
                       </div>
                     </div>
                     <div className="flex flex-col flex-1">
-                      <p className="font-bold text-gray-950">{user.username}</p>
+                      <p className="font-bold text-gray-50">{user.username}</p>
                     </div>
                   </div>
                 ))

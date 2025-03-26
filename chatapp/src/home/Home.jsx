@@ -13,10 +13,7 @@ const Home = () => {
     setIsSidebarVisible(false); // Hide Sidebar when a user is selected
   };
 
-  const handleShowSidebar = () => {
-    setSelectedUser(null);
-    setIsSidebarVisible(true); // Show Sidebar when going back
-  };
+  
 
   return (
     <div className='flex justify-between min-w-full md:min-w-[550px] md:max-w-[75%] 
@@ -34,7 +31,7 @@ const Home = () => {
 
       {/* MessageContainer - Visible when a user is selected (Replaces Sidebar on small screens) */}
       <div className={`flex-auto ${selectedUser ? 'flex' : 'hidden'} md:flex`}>
-        <MessageContainer onBackUser={handleShowSidebar} />
+        <MessageContainer selectedUser={selectedUser}  />
       </div>
     </div>
   );
