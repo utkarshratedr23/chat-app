@@ -73,10 +73,13 @@ export const userLogin=async(req,res)=>{
      const {email,password}=req.body;
      const user=await User.findOne({email})
      if(!user)
-        return res.status(500).send({success:false,message:"Email doesn't exixts"})
+        return res.status(404).send({success:false,message:"Email doesn't exixts"})
+     if (!user.password) {
+        return res.status(500).json({ success: false, message: "User password is missing" });
+      }
      const comparePassword=bcrypt.compareSync(password,user.password || "")
      if(!comparePassword)
-        return res.status(500).send({success:false,message:"Password Doesn't match"})
+        return res.status(401).send({success:false,message:"Password Doesn't match"})
 
      jwtwebToken(user._id,res)
      res.status(200).send({
@@ -102,7 +105,7 @@ try{
   res.cookie("jwt",'',{
   maxAge:0
   })
-  res.status(200).send({message:"User Logout"})
+  res.status(200).send({message:"User Logged Out"})
 }
 catch(error){
 res.status(500).send({

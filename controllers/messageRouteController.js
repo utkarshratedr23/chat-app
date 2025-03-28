@@ -25,17 +25,16 @@ export const sendMessage = async (req, res) => {
             chat = await Conversation.create({
                 participants: [senderId, receiverId]
             });
-            console.log("New Chat Created:", chat); // Debugging
         }
 
         const newMessage = new Message({
             senderId,
             receiverId,
-            message,
+            message:message,
             conversationId: chat._id
         });
 
-        console.log("New Message:", newMessage); // Debugging
+       /* console.log("New Message:", newMessage);*/ // Debugging
 
         if (newMessage) {
             chat.messages.push(newMessage._id);

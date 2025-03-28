@@ -3,18 +3,18 @@ import express from "express";
 import authRouter from "./routes/authUser.js";
 import dbConnect from "./database/connection.js";
 import cookieParser from "cookie-parser";
-import userRouter from './routes/userRoutes.js';
+import userRouter from "./routes/userRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 // ✅ Explicitly specify the path to config.env
-dotenv.config();
+/*dotenv.config();*/
 
-const app = express();
-
+import {app,server} from './Socket/socket.js'
+const __dirname=path.resolve();
 app.use(express.json());
 app.use(cookieParser())
 app.use("/api/auth", authRouter);
 app.use('/api/message',messageRouter)
-app.use('api/user',userRouter)
+app.use('/api/user',userRouter)
 
 app.get("/", (req, res) => {
   res.send("Server is working");
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, async () => {
+server.listen(PORT, async () => {
   dbConnect();
   console.log(`Server running on port ${PORT}`);
 });
