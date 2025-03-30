@@ -4,11 +4,12 @@ import { TiMessages } from "react-icons/ti";
 import userConversation from "../Zustans/useConversation";
 import axios from "axios";
 import { IoArrowBackSharp, IoSend } from "react-icons/io5";
-
+import { useSocketContext } from "../context/socketContext";
+import notify from '../assets/sound/notification.mp3'
 const MessageContainer = ({  selectedUser }) => {
   const { authUser } = useAuth();
   const { messages, setSelectedConversation, setMessage, selectedConversation } = userConversation();
-  
+  const {socket}=useSocketContext();
   const [loading, setLoading] = useState(false);
   const [sendData, setSendData] = useState("");
   const [sending, setSending] = useState(false);
@@ -22,6 +23,14 @@ const MessageContainer = ({  selectedUser }) => {
     setIsSidebarVisible(true)
     setSelectedConversation(null)
   }
+  useEffect(()=>{
+    socket?.on("newMessage",(newMessage)=>{
+      const sound=new Audio(notify);
+      sound.play();
+      setMessage([...messages,newMessage])
+    })
+    return()=>socket?.off("newMessage");
+  },[socket,setMessage,messages])
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768);
