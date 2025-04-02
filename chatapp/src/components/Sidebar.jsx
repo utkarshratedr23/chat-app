@@ -142,12 +142,7 @@ const handleSearchInput=async(e)=>{
                 <FaSearch />
               </button>
             </form>
-            <img
-              onClick={() => navigate(`/profile/${authUser?._id}`)}
-              src={authUser?.profilepic || "/default-profile.png" }
-              alt='user.img'
-              className="self-center h-12 w-12 hover:scale-110 cursor-pointer"
-            />
+           
           </div>
           <div className="divider px-3"></div>
   
@@ -167,7 +162,7 @@ const handleSearchInput=async(e)=>{
                      )}
                     </div>
                     <div className="flex flex-col flex-1">
-                      <p className="font-bold text-gray-950"> {user.username} </p>
+                      <p className="font-bold text-gray-50"> {user.username} </p>
                     </div>
                     
                   </div>

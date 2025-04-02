@@ -82,7 +82,7 @@ const Login = () => {
           </div>
           <div className="flex items-center justify-center mt-4">
             <button
-              className="bg-gray-950 text-gray-300 hover:bg-white text-xl px-6 py-2 rounded-lg shadow-md transition-all duration-200"
+              className="bg-cyan-600 text-gray-300 hover:bg-white text-xl px-6 py-2 rounded-lg shadow-md transition-all duration-200"
               disabled={loading}
             >
               {loading ? "Loading..." : "Login"}

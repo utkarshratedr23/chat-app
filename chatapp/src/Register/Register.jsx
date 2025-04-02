@@ -57,7 +57,7 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="flex flex-col">
         <div>
             <label className="label p-2">
-              <span className="font-bold text-gray-950 text-xl label-text">
+              <span className="font-bold text-gray-50 text-xl label-text">
                 Fullname:
               </span>
             </label>
@@ -72,7 +72,7 @@ const Register = () => {
           </div>
           <div>
             <label className="label p-2">
-              <span className="font-bold text-gray-950 text-xl label-text">
+              <span className="font-bold text-gray-50 text-xl label-text">
                 Username:
               </span>
             </label>
@@ -87,7 +87,7 @@ const Register = () => {
           </div>
           <div>
             <label className="label p-2">
-              <span className="font-bold text-gray-950 text-xl label-text">
+              <span className="font-bold text-gray-50 text-xl label-text">
                 Email:
               </span>
             </label>
@@ -102,7 +102,7 @@ const Register = () => {
           </div>
           <div>
             <label className="label p-2">
-              <span className="font-bold text-gray-950 text-xl label-text">
+              <span className="font-bold text-gray-50 text-xl label-text">
                 Password:
               </span>
             </label>
@@ -117,7 +117,7 @@ const Register = () => {
           </div>
           <div>
             <label className="label p-2">
-              <span className="font-bold text-gray-950 text-xl label-text">
+              <span className="font-bold text-gray-50 text-xl label-text">
                 Confirm Password:
               </span>
             </label>
@@ -132,19 +132,19 @@ const Register = () => {
           </div>
           <div className='flex gap-2 mt-1' id='gender'>
             <label className='cursor-pointer label flex gap-2'>
-                <span className='label-text text-xl text-gray-950'>Male</span>
+                <span className='label-text text-xl text-gray-50'>Male</span>
                 <input onChange={()=>selectGender('male')}
                  checked={inputData.gender==='male'} type='checkbox' className='checkbox checkbox-info'/>
             </label>
             <label className='cursor-pointer label flex gap-2'>
-                <span className='label-text text-xl text-gray-950'>Female</span>
+                <span className='label-text text-xl text-gray-50'>Female</span>
                 <input onChange={()=>selectGender('female')}
                 checked={inputData.gender==='female'} type='checkbox' className='checkbox checkbox-info'/>
             </label>
           </div>
           <div className="flex items-center justify-center mt-4">
             <button
-              className="bg-gray-950 text-gray-300 hover:bg-white text-xl px-6 py-2 rounded-lg shadow-md transition-all duration-200"
+              className="bg-cyan-600 text-gray-950 cursor-pointer hover:bg-white text-xl px-6 py-2 rounded-lg shadow-md transition-all duration-200"
               disabled={loading}
             >
               {loading ? "Loading..." : "Register"}
@@ -156,7 +156,7 @@ const Register = () => {
                     Already have an Account?{" "}
                     <Link to={"/login"}>
                       <span className="text-green-500 cursor-pointer font-semibold hover:underline">
-                        Register
+                        Login
                       </span>
                     </Link>
                   </p>
