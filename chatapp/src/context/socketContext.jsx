@@ -14,11 +14,9 @@ export const SocketContextProvider=({children})=>{
     const {authUser} = useAuth();
     useEffect(()=>{
         if(authUser){
-            const socket = io({
-                query:{
-                    userId:authUser?._id,
-                }
-            })
+            const socket = io("http://localhost:3000", {  // Change to your backend URL
+                query: { userId: authUser?._id }
+              });
             socket.on("getOnlineUsers",(users)=>{
                 setOnlineUser(users)
             });

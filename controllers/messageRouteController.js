@@ -1,9 +1,10 @@
 import Conversation from "../Models/conversationalModels.js";
 import Message from "../Models/messageSchema.js";
+import { getReciverSocketId,io } from "../Socket/socket.js";
 
 export const sendMessage = async (req, res) => {
     try {
-        const { message } = req.body;
+        const { messages } = req.body;
         const { id: receiverId } = req.params;
 
         // FIX: Ensure req.user exists before accessing _id
@@ -27,21 +28,27 @@ export const sendMessage = async (req, res) => {
             });
         }
 
-        const newMessage = new Message({
+        const newMessages = new Message({
             senderId,
             receiverId,
-            message:message,
+            message:messages,
             conversationId: chat._id
         });
 
        /* console.log("New Message:", newMessage);*/ // Debugging
 
-        if (newMessage) {
-            chat.messages.push(newMessage._id);
+        if (newMessages) {
+            chat.messages.push(newMessages._id);
         }
 
-        await Promise.all([chat.save(), newMessage.save()]);
-        res.status(201).send(newMessage);
+        await Promise.all([chat.save(), newMessages.save()]);
+        //Socket.io function
+        const reciverSocketId=getReciverSocketId(receiverId)
+        console.log("Emitting newMessage event to:", reciverSocketId);
+        if(reciverSocketId){
+            io.to(reciverSocketId).emit("newMessage",newMessages)
+        }
+        res.status(201).send(newMessages);
     } catch (error) {
         console.log("Error in sendMessage:", error.message);
         res.status(500).json({ success: false, message: error.message });

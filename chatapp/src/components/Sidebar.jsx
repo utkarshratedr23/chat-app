@@ -8,17 +8,30 @@ import { useNavigate } from 'react-router-dom';
 import { BiLogOut } from "react-icons/bi";
 import userConversation from '../Zustans/useConversation';
 import MessageContainer from './MessageContainer';
+import { useSocketContext } from '../context/socketContext';
 const Sidebar = ({onSelectUser}) => {
 const navigate=useNavigate()
 const { authUser, setAuthUser } = useAuth();
 const[searchInput,setSearchInput]=useState('')
 const [loading,setLoading]=useState(false);
 const[chatUser,setChatUser]=useState([])
+const [newMessageUsers,setNewMessageUsers]=useState('')
 const[searchUser,setSearchUser]=useState([]);
 const[selectedUserId,setSelectedUserId]=useState(null)
 const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
 const {message , setMessage, selectedConversation ,  setSelectedConversation} = userConversation();
+const {onlineUser,socket}=useSocketContext();
 
+//chats function
+
+const isOnline = (userId) => onlineUser.includes(userId);
+
+useEffect(()=>{
+    socket?.on("newMessage",(newMessagee)=>{
+      setNewMessageUsers(newMessagee)
+    })
+    return()=>socket?.off("newMessage");
+  },[socket,message])
 useEffect(()=>{
   const handleResize=()=>{
     setIsMobileView(window.innerWidth<=768);
@@ -79,7 +92,7 @@ const handleSearchInput=async(e)=>{
   const handleUserClick=(user)=>{
       setSelectedConversation(user);
       setSelectedUserId(user._id);
-        
+      setNewMessageUsers('')
 }
   const handelLogOut=async()=>{
     const confirmLogout=window.prompt("type 'UserName' To LOGOUT");
@@ -145,14 +158,18 @@ const handleSearchInput=async(e)=>{
                   <div key={user._id} onClick={() => handleUserClick(user)} 
                     className={`flex gap-3 items-center rounded p-2 py-1 cursor-pointer ${selectedUserId === user?._id ? 'bg-sky-500' : ''}`}
                   >
-                    <div className="avatar">
-                      <div className="w-12 rounded-full">
-                        <img src={user.profilepic} alt="user.img" />
-                      </div>
+                    <div className="avatar relative">
+                    <div className="w-12 rounded-full">
+                    <img src={user.profilepic || "/default-profile.png"} alt="user.img" />
+                     </div>
+                     {isOnline(user._id) && (
+                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                     )}
                     </div>
                     <div className="flex flex-col flex-1">
                       <p className="font-bold text-gray-950"> {user.username} </p>
                     </div>
+                    
                   </div>
                 ))}
               </div>
@@ -172,13 +189,22 @@ const handleSearchInput=async(e)=>{
                   <div key={user._id} onClick={() => handleUserClick(user)} 
                     className={`flex gap-3 items-center rounded p-2 py-1 cursor-pointer ${selectedUserId === user?._id ? 'bg-sky-500' : ''}`}
                   >
-                    <div className="avatar">
-                      <div className="w-12 rounded-full">
-                        <img src={user.profilepic} alt="user.img" />
-                      </div>
+                    <div className="avatar relative">
+                    <div className="w-12 rounded-full">
+                    <img src={user.profilepic || "/default-profile.png"} alt="user.img" />
+                     </div>
+                     {isOnline(user._id) && (
+                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                     )}
                     </div>
                     <div className="flex flex-col flex-1">
                       <p className="font-bold text-gray-50">{user.username}</p>
+                    </div>
+                    <div>
+                      {
+                        newMessageUsers.receiverId===authUser._id && newMessageUsers.senderId===user?._id ?
+                    <div className='rounded-full bg-green-700 text-sm text-white px-[4px]'>+1</div>:<div></div>
+                      }
                     </div>
                   </div>
                 ))

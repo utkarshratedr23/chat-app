@@ -5,6 +5,7 @@ import dbConnect from "./database/connection.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
+import path from "path";
 // ✅ Explicitly specify the path to config.env
 /*dotenv.config();*/
 
@@ -16,6 +17,12 @@ app.use("/api/auth", authRouter);
 app.use('/api/message',messageRouter)
 app.use('/api/user',userRouter)
 
+app.use(express.static(path.join(__dirname, "chatapp", "dist")));
+
+// Fallback route to serve "index.html" for all unknown routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "chatapp", "dist"));
+});
 app.get("/", (req, res) => {
   res.send("Server is working");
 });
@@ -23,6 +30,6 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, async () => {
-  dbConnect();
+  await dbConnect();
   console.log(`Server running on port ${PORT}`);
 });

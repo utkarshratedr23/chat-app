@@ -6,6 +6,7 @@ import axios from "axios";
 import { IoArrowBackSharp, IoSend } from "react-icons/io5";
 import { useSocketContext } from "../context/socketContext";
 import notify from '../assets/sound/notification.mp3'
+
 const MessageContainer = ({  selectedUser }) => {
   const { authUser } = useAuth();
   const { messages, setSelectedConversation, setMessage, selectedConversation } = userConversation();
@@ -24,10 +25,10 @@ const MessageContainer = ({  selectedUser }) => {
     setSelectedConversation(null)
   }
   useEffect(()=>{
-    socket?.on("newMessage",(newMessage)=>{
+    socket?.on("newMessage",(newMessages)=>{
       const sound=new Audio(notify);
       sound.play();
-      setMessage([...messages,newMessage])
+      setMessage([...messages,newMessages])
     })
     return()=>socket?.off("newMessage");
   },[socket,setMessage,messages])
@@ -44,7 +45,7 @@ const MessageContainer = ({  selectedUser }) => {
     e.preventDefault();
    setSending(true)
    try{
-      const res=await axios.post(`/api/message/send/${selectedConversation?._id}`,{message:sendData})
+      const res=await axios.post(`/api/message/send/${selectedConversation?._id}`,{messages:sendData})
        const data=await res.data;
        if(data.success===false){
         setLoading(false);
@@ -71,18 +72,18 @@ const MessageContainer = ({  selectedUser }) => {
     const getMessages = async () => {
       setLoading(true);
       try {
-        const get = await axios.get(`/api/messages/${selectedConversation?._id}`);
+        const get = await axios.get(`/api/message/${selectedConversation?._id}`);
         const data = get.data;
-        if (!data.success) {
+        if (data.success === false) {
+          setLoading(false);
           console.log(data.message);
-        } else {
-          setMessage(data);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
       }
+      setLoading(false);
+      setMessage(data);
+      } catch (error) {
+        setLoading(false)
+        console.log(error);
+      } 
     };
 
     if (selectedConversation?._id) getMessages();
@@ -137,8 +138,8 @@ const MessageContainer = ({  selectedUser }) => {
               messages?.length > 0 &&
               messages.map((message) => (
                 <div key={message._id} ref={lastMessageRef} className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}>
-                  <div className={`chat-bubble ${message.senderId === authUser._id ? "bg-sky-400" : "bg-gray-700"}`}>
-                    {message.message}
+                  <div className={`chat-bubble ${message.senderId === authUser._id ? "bg-sky-400" : "bg-white"}`}>
+                    {message?.message}
                   </div>
                 </div>
               ))}
