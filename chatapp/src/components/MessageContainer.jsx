@@ -5,7 +5,7 @@ import { TiMessages } from "react-icons/ti";
 import userConversation from "../Zustans/useConversation";
 import axios from "axios";
 import { IoArrowBackSharp, IoSend } from "react-icons/io5";
-import { useSocketContext } from "../context/socketContext";
+import { useSocketContext } from "../context/SocketContext"
 import notify from '../assets/sound/notification.mp3'
 
 const MessageContainer = ({  selectedUser }) => {

@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { BiLogOut } from "react-icons/bi";
 import userConversation from '../Zustans/useConversation';
 import MessageContainer from './MessageContainer';
-import { useSocketContext } from '../context/socketContext';
+import { useSocketContext } from '../context/SocketContext';
 const Sidebar = ({onSelectUser}) => {
 const navigate=useNavigate()
 const { authUser, setAuthUser } = useAuth();
