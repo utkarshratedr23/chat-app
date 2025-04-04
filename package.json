@@ -4,9 +4,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon Backend/index.js",
-    "start": "node Backend/index.js",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "dev": "nodemon index.js",
+  "start": "node index.js",
+    "build": "npm install && npm install --prefix chatapp && npm run build --prefix chatapp"
+
   },
   "author": "",
   "license": "ISC",
