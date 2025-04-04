@@ -9,7 +9,7 @@ const jwtwebToken=(userId,res)=>{
         maxAge:30*24*60*60*1000,
         httpOnly:true,
         sameSite:"strict",
-        secure:false
+        secure:true
     })
     console.log("Cookie Sent:", res.getHeaders()["set-cookie"]);
 }
