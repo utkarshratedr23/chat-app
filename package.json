@@ -4,10 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-  "start": "node index.js",
-    "build": "npm install && npm install --prefix chatapp && npm run build --prefix chatapp"
-
+    "install": "npm install && npm install --prefix chatapp",
+  "build": "npm run build --prefix chatapp",
+  "start": "node index.js & npm run preview --prefix chatapp"
   },
   "author": "",
   "license": "ISC",
