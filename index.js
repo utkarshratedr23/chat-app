@@ -11,6 +11,7 @@ import path from "path";
 
 import {app,server} from './Socket/socket.js'
 const __dirname=path.resolve();
+dotenv.config();
 app.use(express.json());
 app.use(cookieParser())
 app.use("/api/auth", authRouter);

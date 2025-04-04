@@ -10,7 +10,7 @@ const isLogin = async (req, res, next) => {
             return res.status(401).json({ success: false, message: "User Unauthorized: No Token Found" });
         }
 
-        const decoded = jwt.verify(token,"subscribe");  // ✅ Use your JWT_SECRET
+        const decoded = jwt.verify(token,process.env.JWT_SECRET);  // ✅ Use your JWT_SECRET
         if (!decoded) {
             return res.status(401).json({ success: false, message: "User Unauthorized: Invalid Token" });
         }
