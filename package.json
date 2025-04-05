@@ -1,13 +1,11 @@
 {
-  "name": "c",
+  "name": "chat-app-backend",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
-   "dev": "nodemon index.js",
-    "start": "node index.js",
-    "install-client": "npm install --prefix chatapp",
-    "build": "npm run install-client && npm run build --prefix chatapp"
+  "start": "node index.js",
+  "build": "npm run build --prefix chatapp"
   },
   "author": "",
   "license": "ISC",

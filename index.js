@@ -6,30 +6,40 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import path from "path";
-// ✅ Explicitly specify the path to config.env
-/*dotenv.config();*/
+import { fileURLToPath } from 'url';
+import { app, server } from './Socket/socket.js';
 
-import {app,server} from './Socket/socket.js'
-const __dirname=path.resolve();
+// ✅ Properly define __dirname using fileURLToPath
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ Load environment variables
 dotenv.config();
+
+// ✅ Middlewares
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
+
+// ✅ API routes
 app.use("/api/auth", authRouter);
-app.use('/api/message',messageRouter)
-app.use('/api/user',userRouter)
+app.use("/api/message", messageRouter);
+app.use("/api/user", userRouter);
 
-app.use(express.static(path.join(__dirname, "chatapp/dist")));
+// ✅ Serve frontend from 'chatapp/dist'
+app.use(express.static(path.join(__dirname, 'chatapp', 'dist')));
 
-// Fallback route to serve "index.html" for all unknown routes
+// ✅ Fallback route for SPA (Single Page App)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname,"chatapp/dist", "index.html"));
+  res.sendFile(path.join(__dirname, 'chatapp', 'dist', 'index.html'));
 });
+
+// ✅ Root test route
 app.get("/", (req, res) => {
   res.send("Server is working");
 });
 
+// ✅ Start server
 const PORT = process.env.PORT || 3000;
-
 server.listen(PORT, async () => {
   await dbConnect();
   console.log(`Server running on port ${PORT}`);
