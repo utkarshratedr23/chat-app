@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "install": "npm install && npm install --prefix chatapp",
-  "build": "npm run build --prefix chatapp",
-  "start": "node index.js & npm run preview --prefix chatapp"
+   "install": "npm install && cd chatapp && npm install",
+  "build": "cd chatapp && npm run build",
+  "start": "node index.js & cd chatapp && npm run preview"
   },
   "author": "",
   "license": "ISC",
