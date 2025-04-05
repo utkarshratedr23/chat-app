@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-   "postinstall": "npm install --prefix chatapp",
-  "build": "npm run build --prefix chatapp",
-  "start": "node index.js"
+   "dev": "nodemon Backend/index.js",
+  "start": "node Backend/index.js",
+  "build": "npm install --prefix Backend/chatapp && npm run build --prefix Backend/chatapp"
   },
   "author": "",
   "license": "ISC",
