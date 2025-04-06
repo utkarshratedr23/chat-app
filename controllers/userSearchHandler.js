@@ -54,3 +54,12 @@ export const currentchatters=async(req,res)=>{
    console.log(error)
   }
 }
+export const getRegisteredUsers=async(req,res)=>{
+    try {
+        const currentUserId = req.user._id; 
+        const users = await User.find({ _id: { $ne: currentUserId } }).select("-password");
+        res.json(users);
+      } catch (error) {
+        res.status(500).json({ success: false, message: "Error fetching users" });
+      }
+}
