@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
   "start": "node index.js",
-  "build": "npm run build --prefix chatapp"
+  "build": "cd chatapp && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
