@@ -14,7 +14,7 @@ export const SocketContextProvider=({children})=>{
     const {authUser} = useAuth();
     useEffect(()=>{
         if(authUser){
-            const socket = io("http://localhost:3000", {  // Change to your backend URL
+            const socket = io("https://chat-app-1-7qav.onrender.com", {  // Change to your backend URL
                 query: { userId: authUser?._id }
               });
             socket.on("getOnlineUsers",(users)=>{
