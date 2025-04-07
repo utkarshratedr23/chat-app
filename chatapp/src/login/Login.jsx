@@ -52,7 +52,7 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div>
             <label className="label p-2">
-              <span className="font-bold text-gray-950 text-xl label-text">
+              <span className="font-bold text-gray-50 text-xl label-text">
                 Email:
               </span>
             </label>
@@ -67,7 +67,7 @@ const Login = () => {
           </div>
           <div>
             <label className="label p-2">
-              <span className="font-bold text-gray-950 text-xl label-text">
+              <span className="font-bold text-gray-50 text-xl label-text">
                 Password:
               </span>
             </label>
@@ -90,7 +90,7 @@ const Login = () => {
           </div>
         </form>
         <div className="pt-2">
-          <p className="text-sm font-semibold text-gray-950">
+          <p className="text-sm font-semibold text-white">
             If you don't have an account?{" "}
             <Link to={"/signup"}>
               <span className="text-green-500 cursor-pointer font-semibold hover:underline">
